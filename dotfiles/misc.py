@@ -3,6 +3,7 @@ import sys
 from colorama import init, Fore
 import os
 import json
+import pyttsx3
 from datetime import datetime as dt
 
 
@@ -50,6 +51,10 @@ def cat():
     except:
         print(Fore.RED + f"[-] No such file: \"{sys.argv[2]}\"")
 
+def speak():
+    pyttsx3.speak(" ".join(sys.argv[2:]))
+
+
 
 if __name__=="__main__":
     if len(sys.argv)<2:
@@ -62,5 +67,10 @@ if __name__=="__main__":
             print(Fore.YELLOW + f"[*] Usage:\ncat <filename>")
             quit()
         cat()
+    elif sys.argv[1]=='speak':
+        if len(sys.argv)<3:
+            print(Fore.YELLOW + f"[*] Usage:\nspeak <words>")
+            quit()
+        speak()
     else:
         print(Fore.RED + "[-] No such command.")
