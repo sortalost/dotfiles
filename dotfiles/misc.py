@@ -36,7 +36,7 @@ def newsletter():
             with open(_vars['newsletter_file'],"r+") as f:
                 data = json.load(f)
             data['dates'].append(dt.now().strftime("%d.%m.%y"))
-        with open(f"{_vars['newsletter_file'],"w") as f:
+        with open(_vars['newsletter_file'],"w") as f:
             json.dump(data,f)
     except Exception as e:
         print(Fore.RED + f"[-] Error: {e}")
