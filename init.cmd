@@ -3,7 +3,7 @@ cls
 doskey home=cd %USERPROFILE%
 doskey welp=echo ascii, wiki, ub, sf, np, song, nws, cat, speak
 doskey sf = cd %USERPROFILE%\Desktop\play\Street_Fighter_2_Turbo ^&^& StreetFighter2Turbo.bat
-doskey ascii = python %USERPROFILE%\dotfiles\ascii.py
+doskey ascii = python %USERPROFILE%\f"{os.getenv('USERPROFILE')}\\dotfiles\\newsletter.json"\ascii.py
 doskey wiki = python %USERPROFILE%\dotfiles\wiki.py $*
 doskey ub = python %USERPROFILE%\dotfiles\urbandictionary.py $*
 doskey song = python %USERPROFILE%\dotfiles\song.py $*

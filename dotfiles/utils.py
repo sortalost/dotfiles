@@ -4,8 +4,9 @@ import time
 
 _vars = {
     'loading':True,
-    'wiki_history_file':'dotfiles/wikihistory.json',
-    'ub_history_file':'dotfiles/ubhistory.json',
+    'wiki_history_file':f"{os.getenv('USERPROFILE')}\\dotfiles\\wikihistory.json",
+    'ub_history_file':f"{os.getenv('USERPROFILE')}\\dotfiles\\ubhistory.json",
+    'newsletter_file':f"{os.getenv('USERPROFILE')}\\dotfiles\\newsletter.json",
     }
 
 def loading_animation():

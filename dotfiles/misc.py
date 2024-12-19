@@ -4,6 +4,7 @@ from colorama import init, Fore
 import os
 import json
 from datetime import datetime as dt
+from utils import _vars
 
 
 init(autoreset=True)
@@ -12,7 +13,7 @@ SITE = "https://sortalost.vercel.app"
 
 def newsletter():
     try:
-        with open("newsletter.json","r") as f:
+        with open(_vars['newsletter_file'],"r") as f:
             data = json.load(f)
         if dt.now().strftime("%d.%m.%y") in data['dates']:
             print(Fore.YELLOW + f"[!] Already sent the newsletter today")
@@ -22,7 +23,7 @@ def newsletter():
     except Exception as e:
         print(Fore.YELLOW + "[!] newsletter.json does not exist, creating...")
         data={"dates":[]}
-        f = open("newsletter.json","w")
+        f = open(_vars['newsletter_file'],"w")
         f.write(json.dumps(data))
         f.close()
         print(Fore.YELLOW + "[*] created, sending request to server...")
@@ -32,10 +33,10 @@ def newsletter():
             print(Fore.RED + f"[-] {con['error']}")
         else:
             print(Fore.GREEN + f"[+] {con['message']}")
-            with open("newsletter.json","r+") as f:
+            with open(_vars['newsletter_file'],"r+") as f:
                 data = json.load(f)
             data['dates'].append(dt.now().strftime("%d.%m.%y"))
-        with open("newsletter.json","w") as f:
+        with open(f"{_vars['newsletter_file'],"w") as f:
             json.dump(data,f)
     except Exception as e:
         print(Fore.RED + f"[-] Error: {e}")
