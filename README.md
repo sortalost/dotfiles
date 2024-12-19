@@ -24,3 +24,4 @@
 #### 19/12/2024
 > added `ub` urban dictionary
 > added `requirements.txt`
+> added `speak`
