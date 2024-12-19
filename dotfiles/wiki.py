@@ -1,33 +1,20 @@
-# search wikipedia
-# wiki <search-term>
-
 import sys
 import wikipedia
 import json
 import os
 import threading
-import time
 from colorama import init, Fore
 import warnings
 import requests
 import webbrowser
+from utils import loading_animation, _vars
 
 warnings.catch_warnings()
 warnings.simplefilter("ignore")
 
 init(autoreset=True)
 
-HISTORY_FILE = "dotfiles/wikihistory.json"
-loading = True
-
-def loading_animation():
-    while loading:
-        for char in "\\|/~":
-            sys.stdout.write(f"\r{Fore.YELLOW}[{char}]")
-            sys.stdout.flush()
-            time.sleep(0.2)
-    sys.stdout.write("\r")  # Clear the loading animation line
-
+HISTORY_FILE = _vars['wiki_history_file']
 
 def summary(query):
     global loading
@@ -36,34 +23,34 @@ def summary(query):
         thread.start()
         search_results = wikipedia.search(query, results=1)
         if not search_results:
-            loading = False
+            _vars['loading'] = False
             thread.join()
             print(Fore.RED + "[-] No results found on Wikipedia.")
             return
         page_title = search_results[0]
         result_summary = wikipedia.summary(page_title, sentences=3)
-        loading = False
+        _vars['loading'] = False
         thread.join()  # Ensure that the loading thread is joined before printing the result
         print(Fore.GREEN + f"[+] {page_title} ")
         print(Fore.CYAN + result_summary)
         log_query(query)
     except wikipedia.exceptions.DisambiguationError as e:
-        loading = False
+        _vars['loading'] = False
         thread.join()
         print(Fore.YELLOW + "[?] The query is ambiguous.")
         print(Fore.YELLOW + "[*] Suggestions:")
         for i, option in enumerate(e.options[:5], start=1):
             print(f"  {i}. {option}")
     except wikipedia.exceptions.PageError:
-        loading = False
+        _vars['loading'] = False
         thread.join()
         print(Fore.RED + "[-] No matching page found.")
     except requests.exceptions.RequestException:
-        loading = False
+        _vars['loading'] = False
         thread.join()
         print(Fore.RED + "[-] No internet connection.")
     except Exception as e:
-        loading = False
+        _vars['loading'] = False
         thread.join()
         print(Fore.RED + f"[-] An error occurred: {e}")
 
@@ -87,7 +74,7 @@ def history():
                 history = json.load(f)
             if history:
                 print(Fore.GREEN + f"[+] Query History: ({len(history)})")
-                for i, q in enumerate(history, start=1):
+                for i, q in enumerate(list(set(history)), start=1):
                     print(f"{i}. {q}")
             else:
                 print(Fore.RED + "[-] No queries logged yet.")

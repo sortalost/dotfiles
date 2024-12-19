@@ -7,7 +7,7 @@ from datetime import datetime as dt
 
 
 init(autoreset=True)
-SITE = "https://dev.saimudra.com"
+SITE = "https://sortalost.vercel.app"
 
 
 def newsletter():
